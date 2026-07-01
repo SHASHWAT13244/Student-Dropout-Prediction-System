@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: student-dropout-prediction
-    runtime: docker
-    repo: https://github.com/SHASHWAT13244/Student-Dropout-Prediction-System
-    plan: free
-    dockerfilePath: ./Dockerfile
-    autoDeploy: true
