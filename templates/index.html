@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Dropout Prediction Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="dashboard">
+        <div class="hero">
+            <div>
+                <h1>🤖 AI Student Dropout Prediction</h1>
+                <p>Machine Learning Based Academic Risk Intelligence System</p>
+            </div>
+            <div class="badge">Random Forest AI</div>
+        </div>
+
+        <div class="stats">
+            <div class="box">
+                <h2>94%</h2>
+                <p>Model Accuracy</p>
+            </div>
+            <div class="box">
+                <h2>3</h2>
+                <p>ML Algorithms</p>
+            </div>
+            <div class="box">
+                <h2>AI</h2>
+                <p>Prediction Engine</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Student Information</h2>
+            
+            <form action="/predict" method="POST" id="predictionForm">
+                <div class="grid">
+                    <input name="id" placeholder="Student ID" type="number" step="1" required>
+                    <input name="age" placeholder="Age" type="number" step="0.1" required>
+                    <select name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="0">Female</option>
+                        <option value="1">Male</option>
+                    </select>
+                    <input name="income" placeholder="Family Income" type="number" step="1" required>
+                    <select name="internet" required>
+                        <option value="">Internet Access</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                    <input name="study" placeholder="Study Hours (e.g., 4.5)" type="number" step="0.01" required>
+                    <input name="attendance" placeholder="Attendance % (e.g., 85)" type="number" step="0.1" required>
+                    <input name="delay" placeholder="Assignment Delay Days" type="number" step="1" required>
+                    <input name="travel" placeholder="Travel Time Minutes" type="number" step="0.1" required>
+                    <select name="job" required>
+                        <option value="">Part Time Job</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <select name="scholarship" required>
+                        <option value="">Scholarship</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                    <input name="stress" placeholder="Stress Level (1-10)" type="number" step="0.1" required>
+                    <input name="gpa" placeholder="GPA (e.g., 3.2)" type="number" step="0.01" required>
+                    <input name="sgpa" placeholder="Semester GPA" type="number" step="0.01" required>
+                    <input name="cgpa" placeholder="CGPA" type="number" step="0.01" required>
+                    <input name="semester" placeholder="Semester (0-3)" type="number" step="1" required>
+                    <input name="department" placeholder="Department (0-4)" type="number" step="1" required>
+                    <input name="parent" placeholder="Parent Education (0-3)" type="number" step="1" required>
+                </div>
+                <button type="submit">Analyze Student Risk</button>
+            </form>
+
+            {% if prediction %}
+            <div class="result">
+                {{ prediction }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Add client-side validation
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            const inputs = this.querySelectorAll('input[required], select[required]');
+            let valid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value || input.value.trim() === '') {
+                    input.style.border = '2px solid red';
+                    valid = false;
+                } else {
+                    input.style.border = 'none';
+                }
+            });
+            
+            if (!valid) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+            }
+        });
+    </script>
+</body>
+</html>
