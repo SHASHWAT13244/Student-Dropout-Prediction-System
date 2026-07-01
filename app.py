@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import joblib
+import os
 
 app = Flask(__name__)
 
@@ -15,7 +16,6 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        # Get form values with defaults for empty fields
         def safe_float(key, default=0.0):
             val = request.form.get(key, "").strip()
             return float(val) if val else default
@@ -60,6 +60,5 @@ def predict():
         return render_template("index.html", prediction=f"❌ Error: {str(e)}")
 
 if __name__ == "__main__":
-    import webbrowser
-    webbrowser.open("http://127.0.0.1:5000")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
