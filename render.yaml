@@ -2,7 +2,6 @@ services:
   - type: web
     name: student-dropout-predictor
     runtime: python
-    repo: https://github.com/SHASHWAT13244/Student-Dropout-Prediction-System.git  # Replace with your repo
     plan: free
     region: oregon
     buildCommand: pip install -r requirements.txt && python train_model.py
@@ -12,3 +11,4 @@ services:
         value: 3.10.0
       - key: FLASK_ENV
         value: production
+    healthCheckPath: /health
