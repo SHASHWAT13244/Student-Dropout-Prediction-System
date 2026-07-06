@@ -1,0 +1,57 @@
+Example 1: HIGH RISK Student
+Age: 20.5
+Gender: Male
+GPA: 0.8
+Semester GPA: 0.7
+CGPA: 0.9
+Study Hours/Day: 1.5
+Attendance Rate: 55.0
+Family Income: 25000
+Parental Education: High School
+Stress Index: 9.5
+Assignment Delay: 5
+Travel Time: 45
+Internet Access: No
+Part-Time Job: Yes
+Scholarship: No
+Semester: Year 1
+Department: CS
+
+Example 2: SAFE Student
+Age: 19.0
+Gender: Male
+GPA: 3.8
+Semester GPA: 3.9
+CGPA: 3.8
+Study Hours/Day: 5.5
+Attendance Rate: 92.0
+Family Income: 45000
+Parental Education: Master
+Stress Index: 3.0
+Assignment Delay: 0
+Travel Time: 15
+Internet Access: Yes
+Part-Time Job: No
+Scholarship: Yes
+Semester: Year 3
+Department: Arts
+
+Example 3: MEDIUM RISK Student
+Age: 21.0
+Gender: Female
+GPA: 1.8
+Semester GPA: 1.9
+CGPA: 1.8
+Study Hours/Day: 3.0
+Attendance Rate: 72.0
+Family Income: 35000
+Parental Education: Bachelor
+Stress Index: 7.5
+Assignment Delay: 3
+Travel Time: 30
+Internet Access: Yes
+Part-Time Job: No
+Scholarship: No
+Semester: Year 2
+Department: Engineering
+
