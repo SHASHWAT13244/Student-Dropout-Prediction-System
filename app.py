@@ -342,14 +342,21 @@ def get_metadata():
     return jsonify({'error': 'Metadata not available'}), 404
 
 # ============================================================================
-# 4. MAIN
+# 4. MAIN - UPDATED FOR RENDER DEPLOYMENT
 # ============================================================================
 
 if __name__ == "__main__":
-    import webbrowser
-    webbrowser.open("http://127.0.0.1:5000")
+    # Get port from environment variable (Render sets this automatically)
+    port = int(os.environ.get('PORT', 5000))
+    
+    # Don't auto-open browser in production
+    # Only open browser if running locally
+    if os.environ.get('FLASK_ENV') != 'production':
+        import webbrowser
+        webbrowser.open(f"http://127.0.0.1:{port}")
+    
     app.run(
-        debug=True,
-        host='0.0.0.0',
-        port=5000
+        debug=False,  # Always False in production
+        host='0.0.0.0',  # Required for Render
+        port=port
     )
