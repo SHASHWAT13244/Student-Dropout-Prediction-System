@@ -7,64 +7,353 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-start: #667eea;
+            --primary-end: #764ba2;
+            --success-start: #11998e;
+            --success-end: #38ef7d;
+            --danger-start: #f093fb;
+            --danger-end: #f5576c;
+            --warning-start: #fddb92;
+            --warning-end: #d1fdff;
+            --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            --card-hover-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf5 100%);
             min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 30px 20px;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.05) 0%, transparent 50%);
+            animation: floatBg 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes floatBg {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, -2%) rotate(1deg); }
+            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+        }
+
         .main-container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
+            position: relative;
         }
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+        /* Header Styles */
+        .header-wrapper {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+        .header-title i {
+            background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-subtitle {
+            color: #4a5568;
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 16px;
+        }
+
+        .badge-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge-modern {
+            font-size: 0.85rem;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: var(--transition-smooth);
             border: none;
-            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
+        .badge-modern.bg-success {
+            background: linear-gradient(135deg, #48bb78, #38a169) !important;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        }
+        .badge-modern.bg-info {
+            background: linear-gradient(135deg, #4299e1, #3182ce) !important;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+        }
+        .badge-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Card Styles with Glassmorphism */
+        .card {
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: var(--transition-smooth);
+            overflow: hidden;
+        }
+        .card:hover {
+            box-shadow: var(--card-hover-shadow);
+            transform: translateY(-2px);
+        }
+
         .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
             color: white;
-            border-radius: 15px 15px 0 0 !important;
-            padding: 20px 25px;
+            border-radius: 24px 24px 0 0 !important;
+            padding: 22px 32px;
+            border-bottom: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
         }
         .card-header h3 {
             margin: 0;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
+        .card-header h3 i {
+            margin-right: 12px;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            padding: 32px;
+        }
+
+        /* Form Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.15);
+            position: relative;
+        }
+        .section-header i {
+            color: var(--primary-start);
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-start), var(--primary-end));
+            border-radius: 2px;
+        }
+
+        /* Form Styles */
+        .form-label {
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .form-label i {
+            color: var(--primary-start);
+            width: 18px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
         .form-control, .form-select {
-            border-radius: 10px;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 11px 16px;
+            transition: var(--transition-smooth);
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
         }
         .form-control:focus, .form-select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: var(--primary-start);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
+            outline: none;
+            background: white;
         }
+        .form-control::placeholder {
+            color: #a0aec0;
+            font-weight: 300;
+            font-size: 0.9rem;
+        }
+        .form-control.is-invalid {
+            border-color: #fc8181;
+            box-shadow: 0 0 0 4px rgba(252, 129, 129, 0.12);
+        }
+
+        .input-group-icon {
+            position: relative;
+        }
+        .input-group-icon .form-control,
+        .input-group-icon .form-select {
+            padding-left: 44px;
+        }
+        .input-group-icon .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 1rem;
+            z-index: 4;
+            transition: var(--transition-smooth);
+            pointer-events: none;
+        }
+        .input-group-icon .form-control:focus ~ .input-icon,
+        .input-group-icon .form-control:focus + .input-icon {
+            color: var(--primary-start);
+        }
+
+        /* Button Styles */
         .btn-predict {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            padding: 12px 40px;
-            font-size: 18px;
+            border-radius: 14px;
+            padding: 16px 40px;
+            font-size: 1.1rem;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: var(--transition-smooth);
             width: 100%;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .btn-predict::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: 0.6s;
+        }
+        .btn-predict:hover::before {
+            left: 100%;
         }
         .btn-predict:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
             color: white;
         }
-        .result-card {
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
+        .btn-predict:active {
+            transform: translateY(0px);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
         }
+        .btn-predict i {
+            font-size: 1.2rem;
+        }
+
+        /* Result Card Styles */
+        .result-card {
+            border-radius: 24px;
+            padding: 28px 32px;
+            margin-top: 28px;
+            border: none;
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         .result-safe {
-            background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%);
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             color: white;
         }
         .result-risk {
@@ -73,60 +362,166 @@
         }
         .result-medium {
             background: linear-gradient(135deg, #fddb92 0%, #d1fdff 100%);
-            color: #333;
+            color: #1a202c;
         }
-        .section-title {
-            font-size: 14px;
+
+        .result-card .section-title {
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 5px;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+            font-weight: 600;
         }
-        .value-display {
-            font-size: 28px;
-            font-weight: 700;
+        .result-card .value-display {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.2;
         }
+        .result-card .value-display i {
+            margin-right: 10px;
+        }
+
         .risk-badge {
-            font-size: 16px;
-            padding: 5px 15px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.3);
+            font-size: 0.85rem;
+            padding: 6px 20px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
+        .result-medium .risk-badge {
+            background: rgba(0, 0, 0, 0.06);
+            border-color: rgba(0, 0, 0, 0.06);
+            color: #2d3748;
+        }
+
+        /* Confidence Gauge */
+        .confidence-gauge {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .confidence-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .result-medium .confidence-bar {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .confidence-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: width 1s ease-out;
+        }
+        .result-medium .confidence-bar-fill {
+            background: var(--primary-start);
+        }
+        .confidence-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-width: 48px;
+            text-align: right;
+        }
+
+        /* Recommendations */
         .recommendation-item {
-            padding: 10px 15px;
-            margin: 5px 0;
-            background: rgba(255,255,255,0.2);
-            border-radius: 8px;
+            padding: 12px 18px;
+            margin: 6px 0;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            font-weight: 450;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .badge-modern {
-            font-size: 14px;
-            padding: 8px 16px;
-            border-radius: 20px;
+        .recommendation-item:hover {
+            transform: translateX(4px);
+            background: rgba(255, 255, 255, 0.22);
         }
-        .form-label {
-            font-weight: 500;
-            color: #333;
+        .result-medium .recommendation-item {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.04);
         }
-        .form-label i {
-            color: #667eea;
-            margin-right: 5px;
+        .result-medium .recommendation-item:hover {
+            background: rgba(0, 0, 0, 0.08);
         }
-        .header-title {
-            color: #333;
-            font-weight: 700;
+
+        /* Footer */
+        .footer {
+            margin-top: 48px;
+            padding: 24px 0;
+            color: #718096;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(113, 128, 150, 0.12);
+            text-align: center;
         }
-        .header-subtitle {
-            color: #666;
+        .footer strong {
+            color: var(--primary-start);
         }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .card-header h3 {
-                font-size: 20px;
-            }
-            .value-display {
-                font-size: 22px;
-            }
             body {
-                padding: 10px;
+                padding: 16px 12px;
+            }
+            .header-title {
+                font-size: 2.2rem;
+            }
+            .header-subtitle {
+                font-size: 1rem;
+            }
+            .card-header {
+                padding: 18px 20px;
+            }
+            .card-header h3 {
+                font-size: 1.2rem;
+            }
+            .card-body {
+                padding: 20px;
+            }
+            .result-card {
+                padding: 20px;
+            }
+            .result-card .value-display {
+                font-size: 1.8rem;
+            }
+            .section-header {
+                font-size: 0.8rem;
+            }
+            .btn-predict {
+                font-size: 1rem;
+                padding: 14px 20px;
+            }
+            .badge-modern {
+                font-size: 0.75rem;
+                padding: 6px 14px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-title {
+                font-size: 1.8rem;
+            }
+            .result-card .value-display {
+                font-size: 1.5rem;
+            }
+            .risk-badge {
+                font-size: 0.75rem;
+                padding: 4px 14px;
             }
         }
     </style>
@@ -134,172 +529,256 @@
 <body>
     <div class="main-container">
         <!-- Header -->
-        <div class="text-center mb-4">
-            <h1 class="display-4 header-title">
-                <i class="fas fa-graduation-cap text-primary"></i> 
-                Dropout Predictor
+        <div class="header-wrapper">
+            <h1 class="header-title">
+                <i class="fas fa-graduation-cap"></i> Dropout Predictor
             </h1>
             <p class="header-subtitle">Predict student dropout risk using machine learning</p>
-            {% if metadata %}
-            <span class="badge bg-success badge-modern">
-                <i class="fas fa-check-circle"></i> Model Ready
-            </span>
-            <span class="badge bg-info badge-modern">
-                <i class="fas fa-chart-line"></i> Accuracy: {{ "%.1f"|format(metadata.accuracy*100) }}%
-            </span>
-            {% endif %}
+            <div class="badge-group">
+                {% if metadata %}
+                <span class="badge-modern bg-success">
+                    <i class="fas fa-check-circle"></i> Model Ready
+                </span>
+                <span class="badge-modern bg-info">
+                    <i class="fas fa-chart-line"></i> Accuracy: {{ "%.1f"|format(metadata.accuracy*100) }}%
+                </span>
+                {% endif %}
+            </div>
         </div>
 
-        <!-- Main Card -->
+        <!-- Main Prediction Card -->
         <div class="card">
             <div class="card-header">
-                <h3><i class="fas fa-edit me-2"></i> Student Information</h3>
+                <h3><i class="fas fa-edit"></i> Student Information</h3>
             </div>
             <div class="card-body">
                 <form method="POST" action="/predict" id="predictionForm">
-                    <div class="row">
+                    <div class="row g-4">
                         <!-- Personal Information -->
-                        <div class="col-md-6 mb-3">
+                        <div class="col-12">
+                            <div class="section-header">
+                                <i class="fas fa-user-circle"></i> Personal Information
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <label class="form-label"><i class="fas fa-user"></i> Age</label>
-                            <input type="number" step="0.1" class="form-control" name="age" placeholder="e.g., 20.5" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-calendar-alt input-icon"></i>
+                                <input type="number" step="0.1" class="form-control" name="age" placeholder="e.g., 20.5" required>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6">
                             <label class="form-label"><i class="fas fa-venus-mars"></i> Gender</label>
-                            <select class="form-select" name="gender">
-                                <option value="1">Male</option>
-                                <option value="0">Female</option>
-                            </select>
+                            <div class="input-group-icon">
+                                <i class="fas fa-venus-mars input-icon"></i>
+                                <select class="form-select" name="gender">
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
+                                </select>
+                            </div>
                         </div>
-                        
+
                         <!-- Academic Information -->
-                        <div class="col-md-4 mb-3">
+                        <div class="col-12">
+                            <div class="section-header">
+                                <i class="fas fa-book-open"></i> Academic Performance
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-star"></i> GPA</label>
-                            <input type="number" step="0.01" class="form-control" name="gpa" placeholder="0.0 - 4.0" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-star input-icon"></i>
+                                <input type="number" step="0.01" class="form-control" name="gpa" placeholder="0.0 - 4.0" required>
+                            </div>
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-star"></i> Semester GPA</label>
-                            <input type="number" step="0.01" class="form-control" name="sgpa" placeholder="0.0 - 4.0" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-star input-icon"></i>
+                                <input type="number" step="0.01" class="form-control" name="sgpa" placeholder="0.0 - 4.0" required>
+                            </div>
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-star"></i> CGPA</label>
-                            <input type="number" step="0.01" class="form-control" name="cgpa" placeholder="0.0 - 4.0" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-star input-icon"></i>
+                                <input type="number" step="0.01" class="form-control" name="cgpa" placeholder="0.0 - 4.0" required>
+                            </div>
                         </div>
-                        
+
                         <!-- Attendance & Study -->
-                        <div class="col-md-6 mb-3">
+                        <div class="col-12">
+                            <div class="section-header">
+                                <i class="fas fa-clock"></i> Study & Attendance
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <label class="form-label"><i class="fas fa-clock"></i> Study Hours/Day</label>
-                            <input type="number" step="0.1" class="form-control" name="study" placeholder="e.g., 4.5" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-clock input-icon"></i>
+                                <input type="number" step="0.1" class="form-control" name="study" placeholder="e.g., 4.5" required>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6">
                             <label class="form-label"><i class="fas fa-calendar-check"></i> Attendance Rate (%)</label>
-                            <input type="number" step="0.1" class="form-control" name="attendance" placeholder="e.g., 85.0" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-percentage input-icon"></i>
+                                <input type="number" step="0.1" class="form-control" name="attendance" placeholder="e.g., 85.0" required>
+                            </div>
                         </div>
-                        
+
                         <!-- Financial & Demographics -->
-                        <div class="col-md-6 mb-3">
+                        <div class="col-12">
+                            <div class="section-header">
+                                <i class="fas fa-users"></i> Demographic & Financial
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <label class="form-label"><i class="fas fa-money-bill"></i> Family Income</label>
-                            <input type="number" class="form-control" name="income" placeholder="e.g., 35000" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-dollar-sign input-icon"></i>
+                                <input type="number" class="form-control" name="income" placeholder="e.g., 35000" required>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6">
                             <label class="form-label"><i class="fas fa-graduation-cap"></i> Parental Education</label>
-                            <select class="form-select" name="parent">
-                                <option value="0">High School</option>
-                                <option value="1">Bachelor</option>
-                                <option value="2">Master</option>
-                                <option value="3">PhD</option>
-                            </select>
+                            <div class="input-group-icon">
+                                <i class="fas fa-graduation-cap input-icon"></i>
+                                <select class="form-select" name="parent">
+                                    <option value="0">High School</option>
+                                    <option value="1">Bachelor</option>
+                                    <option value="2">Master</option>
+                                    <option value="3">PhD</option>
+                                </select>
+                            </div>
                         </div>
-                        
+
                         <!-- Additional Factors -->
-                        <div class="col-md-4 mb-3">
+                        <div class="col-12">
+                            <div class="section-header">
+                                <i class="fas fa-chart-bar"></i> Additional Factors
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-brain"></i> Stress Index</label>
-                            <input type="number" step="0.1" class="form-control" name="stress" placeholder="1 - 10" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-brain input-icon"></i>
+                                <input type="number" step="0.1" class="form-control" name="stress" placeholder="1 - 10" required>
+                            </div>
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-tasks"></i> Assignment Delay</label>
-                            <input type="number" class="form-control" name="delay" placeholder="0 - 8 days" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-tasks input-icon"></i>
+                                <input type="number" class="form-control" name="delay" placeholder="0 - 8 days" required>
+                            </div>
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-map-marker-alt"></i> Travel Time (min)</label>
-                            <input type="number" step="0.1" class="form-control" name="travel" placeholder="e.g., 30" required>
+                            <div class="input-group-icon">
+                                <i class="fas fa-map-marker-alt input-icon"></i>
+                                <input type="number" step="0.1" class="form-control" name="travel" placeholder="e.g., 30" required>
+                            </div>
                         </div>
-                        
+
                         <!-- Binary Options -->
-                        <div class="col-md-4 mb-3">
+                        <div class="col-12">
+                            <div class="section-header">
+                                <i class="fas fa-toggle-on"></i> Other Details
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-wifi"></i> Internet Access</label>
-                            <select class="form-select" name="internet">
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
+                            <div class="input-group-icon">
+                                <i class="fas fa-wifi input-icon"></i>
+                                <select class="form-select" name="internet">
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-briefcase"></i> Part-Time Job</label>
-                            <select class="form-select" name="job">
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
+                            <div class="input-group-icon">
+                                <i class="fas fa-briefcase input-icon"></i>
+                                <select class="form-select" name="job">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-award"></i> Scholarship</label>
-                            <select class="form-select" name="scholarship">
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
+                            <div class="input-group-icon">
+                                <i class="fas fa-award input-icon"></i>
+                                <select class="form-select" name="scholarship">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
                         </div>
-                        
+
                         <!-- Semester & Department -->
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6">
                             <label class="form-label"><i class="fas fa-calendar"></i> Semester</label>
-                            <select class="form-select" name="semester">
-                                <option value="0">Year 1</option>
-                                <option value="1">Year 2</option>
-                                <option value="2">Year 3</option>
-                                <option value="3">Year 4</option>
-                            </select>
+                            <div class="input-group-icon">
+                                <i class="fas fa-calendar input-icon"></i>
+                                <select class="form-select" name="semester">
+                                    <option value="0">Year 1</option>
+                                    <option value="1">Year 2</option>
+                                    <option value="2">Year 3</option>
+                                    <option value="3">Year 4</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6">
                             <label class="form-label"><i class="fas fa-building"></i> Department</label>
-                            <select class="form-select" name="department">
-                                <option value="0">Arts</option>
-                                <option value="1">Business</option>
-                                <option value="2">CS</option>
-                                <option value="3">Engineering</option>
-                                <option value="4">Science</option>
-                            </select>
+                            <div class="input-group-icon">
+                                <i class="fas fa-building input-icon"></i>
+                                <select class="form-select" name="department">
+                                    <option value="0">Arts</option>
+                                    <option value="1">Business</option>
+                                    <option value="2">CS</option>
+                                    <option value="3">Engineering</option>
+                                    <option value="4">Science</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn-predict">
+                                <i class="fas fa-robot"></i> Predict Dropout Risk
+                            </button>
                         </div>
                     </div>
-                    
-                    <button type="submit" class="btn-predict">
-                        <i class="fas fa-robot me-2"></i> Predict Dropout Risk
-                    </button>
                 </form>
             </div>
         </div>
 
         <!-- Results Section -->
         {% if prediction %}
-        <div class="card result-card 
+        <div class="result-card
             {% if prediction.risk_level == 'High Risk' %}result-risk
             {% elif prediction.risk_level == 'Medium Risk' %}result-medium
             {% else %}result-safe{% endif %}">
-            <div class="d-flex justify-content-between align-items-start flex-wrap">
-                <div>
+            <div class="row align-items-start">
+                <div class="col-md-7">
                     <div class="section-title">Prediction Result</div>
                     <div class="value-display">
                         {% if prediction.prediction == 1 %}
-                            <i class="fas fa-exclamation-triangle me-2"></i> At Risk
+                            <i class="fas fa-exclamation-triangle"></i> At Risk
                         {% else %}
-                            <i class="fas fa-check-circle me-2"></i> Safe
+                            <i class="fas fa-check-circle"></i> Safe
                         {% endif %}
                     </div>
                     <div class="mt-2">
                         <span class="risk-badge">
-                            <i class="fas fa-chart-pie me-1"></i>
+                            <i class="fas fa-chart-pie"></i>
                             Risk Level: {{ prediction.risk_level }}
                         </span>
                     </div>
                 </div>
-                <div class="text-end mt-2 mt-md-0">
+                <div class="col-md-5 mt-3 mt-md-0">
                     <div class="section-title">Confidence</div>
                     <div class="value-display">
                         {% if prediction.prediction == 1 %}
@@ -308,28 +787,39 @@
                             {{ "%.1f"|format(prediction.probability_safe*100) }}%
                         {% endif %}
                     </div>
-                    <small style="opacity:0.8;">Dropout probability: {{ "%.1f"|format(prediction.probability_dropout*100) }}%</small>
+                    <div class="confidence-gauge">
+                        <div class="confidence-bar">
+                            <div class="confidence-bar-fill" id="confidenceFill"></div>
+                        </div>
+                        <span class="confidence-label" id="confidenceLabel">{{ "%.0f"|format(prediction.probability_dropout*100) }}%</span>
+                    </div>
+                    <small style="opacity:0.7; font-size:0.8rem;">Dropout probability</small>
                 </div>
             </div>
 
             <!-- Recommendations -->
             {% if prediction.recommendations %}
-            <div class="mt-3">
+            <div class="mt-4">
                 <div class="section-title">Recommendations</div>
-                {% for rec in prediction.recommendations %}
-                <div class="recommendation-item">
-                    {{ rec }}
+                <div class="row g-2">
+                    {% for rec in prediction.recommendations %}
+                    <div class="col-lg-6">
+                        <div class="recommendation-item">
+                            {{ rec }}
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
             {% endif %}
 
             <!-- Error Message -->
             {% if prediction.error %}
             <div class="mt-3">
-                <div class="alert alert-danger">
+                <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
                     <i class="fas fa-exclamation-circle me-2"></i>
                     {{ prediction.error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
             {% endif %}
@@ -337,12 +827,12 @@
         {% endif %}
 
         <!-- Footer -->
-        <div class="text-center text-muted mt-4">
-            <small>
-                <i class="fas fa-shield-alt me-1"></i> 
-                Model accuracy: {% if metadata %}{{ "%.1f"|format(metadata.accuracy*100) }}%{% else %}~78.5%{% endif %} | 
-                Powered by Random Forest & Flask
-            </small>
+        <div class="footer">
+            <i class="fas fa-shield-alt me-1"></i>
+            Model accuracy: {% if metadata %}{{ "%.1f"|format(metadata.accuracy*100) }}%{% else %}~78.5%{% endif %} |
+            Powered by <strong>Random Forest</strong> & <strong>Flask</strong>
+            <br>
+            <span style="opacity:0.6; font-size:0.8rem;">© 2024 Dropout Predictor. All rights reserved.</span>
         </div>
     </div>
 
@@ -352,7 +842,7 @@
         document.getElementById('predictionForm').addEventListener('submit', function(e) {
             const inputs = this.querySelectorAll('input[required]');
             let valid = true;
-            
+
             inputs.forEach(input => {
                 if (!input.value.trim()) {
                     input.classList.add('is-invalid');
@@ -361,10 +851,19 @@
                     input.classList.remove('is-invalid');
                 }
             });
-            
+
             if (!valid) {
                 e.preventDefault();
-                alert('Please fill in all required fields.');
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-danger alert-dismissible fade show mt-3';
+                alertDiv.role = 'alert';
+                alertDiv.innerHTML = `
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    Please fill in all required fields.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                const form = document.getElementById('predictionForm');
+                form.insertBefore(alertDiv, form.firstChild);
             }
         });
 
@@ -379,6 +878,19 @@
                 }
             });
         }, 5000);
+
+        // Animate confidence bar on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const fill = document.getElementById('confidenceFill');
+            const label = document.getElementById('confidenceLabel');
+            if (fill && label) {
+                const targetWidth = label.textContent;
+                fill.style.width = '0%';
+                setTimeout(() => {
+                    fill.style.width = targetWidth;
+                }, 300);
+            }
+        });
     </script>
 </body>
 </html>
